@@ -5,15 +5,26 @@ public class ATM {
 	
 	
 	public ATM(){
-		accounts = new HashMap();
+		accounts = new HashMap<Integer, Double>();
 	}
 	
 	public void openAccount(Integer idNum) {
-		accounts.put(idNum, 0.0);
+		if (!accounts.containsKey(idNum)) {
+			accounts.put(idNum, 0.0);
+		}
+		else {
+			System.out.println("Account creation failed. An account with that ID already exists.");
+		}
+		
 	}
 	
 	public void openAccount(Integer idNum, double initBalance) {
-		accounts.put(idNum, initBalance);
+		if (!accounts.containsKey(idNum)) {
+			accounts.put(idNum, initBalance);
+		}
+		else {
+			System.out.println("Account creation failed. An account with that ID already exists.");
+		}
 	}
 	
 	public void closeAccount(Integer idNum) {
@@ -30,7 +41,7 @@ public class ATM {
 	}
 	
 	public boolean depositMoney(Integer idNum, double amount) {
-		if (accounts.containsKey(idNum)) {
+		if (accounts.containsKey(idNum)&&amount>=0) {
 			accounts.replace(idNum,accounts.get(idNum)+amount);
 			return true;
 		}
@@ -38,7 +49,7 @@ public class ATM {
 	}
 	
 	public boolean withdrawMoney(Integer idNum, double amount) {
-		if (accounts.containsKey(idNum)&&accounts.get(idNum)>=amount) {
+		if (accounts.containsKey(idNum)&&amount>=0&&accounts.get(idNum)>=amount) {
 			accounts.replace(idNum,accounts.get(idNum)-amount);
 			return true;
 		}
